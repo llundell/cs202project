@@ -12,9 +12,11 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <iomanip>
 using std::ostream;
 using std::endl;
 using std::cout;
+using std::setw;
 
 vector<vector<char>> populate(vector<vector<char>> v)
 {
@@ -36,7 +38,7 @@ ostream & print_board(ostream & os,vector<vector<char>> v)
     {
         for(auto j=0u;j<7;++j)
         {
-            os << v[i][j];
+            os << setw(2) <<v[i][j];
         }
         os << endl;
     }
@@ -63,7 +65,7 @@ void check(vector<vector<char>> v,char color)
         }
         sum4=0;
     }
-     cout << "There is no horizontal connect 4" << endl;
+    cout << "There is no horizontal connect 4" << endl;
     //vertical check
     //loop throw columns
     for(auto i=0u;i<7;++i)
@@ -87,55 +89,66 @@ void check(vector<vector<char>> v,char color)
     }
     cout << "There is no vertical connect 4" << endl;
     
+    //positive diagonal
+    for(auto i = 0u;i<6;++i)
+    {
+        for(auto j = 0u;j<7;++j)
+        {
+            for(auto k = 0u;k<6;++k)
+            {
+                if(((j+k)>7) ||((i-k)<0))
+                    cout << "I am breaking the boundary" << endl;
+                    sum4=0;
+                    break;
+                if(v[i-k][j+k]==color)
+                {
+                    ++sum4;
+                }
+                else
+                {
+                    sum4 = 0;
+                }
+                if(sum4==4)
+                    cout << "there is a connect 4 diagonally at (" << j << "," << i << ")" << endl;
+            }
+            
+        }
+    }
 }
-
-//    //positive diagonal
-//    for(auto i = 4u;i<7;++i)
+//    //Horizontal right check
+//    for(auto h=0u;h<4;++h)
 //    {
-//        if(v[i-1])
-//
-//}
-    
-//    for(auto i=0u;i<6;++i)
-//    {
-//        for(auto j=0u;j<7;++j)
+//        if(v[i][j+h] == color)
 //        {
-//            char color = v[i][j];
-//
-//            //Horizontal right check
-//            for(auto h=0u;h<4;++h)
+//            ++sum4;
+//            if(sum4==4)
 //            {
-//                if(v[i][j+h] == color)
-//                {
-//                    ++sum4;
-//                    if(sum4==4)
-//                    {
-//                        return 1;
-//                    }
-//                }
-//                else{
-//                    break;
-//                }
+//                return 1;
 //            }
-//            //Horizontal left check
-//            for(auto h=0u;h<4;++h)
-//            {
-//                if(v[i][j-h] == color)
-//                {
-//                    ++sum4;
-//                    if(sum4==4)
-//                    {
-//                        return 1;
-//                    }
-//                }
-//                else{
-//                    break;
-//                }
-//            }
-//
-//
+//        }
+//        else{
+//            break;
 //        }
 //    }
+//    //Horizontal left check
+//    for(auto h=0u;h<4;++h)
+//    {
+//        if(v[i][j-h] == color)
+//        {
+//            ++sum4;
+//            if(sum4==4)
+//            {
+//                return 1;
+//            }
+//        }
+//        else{
+//            break;
+//        }
+//    }
+//
+//
+//}
+//}
 //}
 //bool check(istream & is)
 //{
